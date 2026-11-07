@@ -262,6 +262,17 @@ We also compared the results against **published data** (`python validation/run_
 
 Published values are drawn as magenta markers on our own charts. No third-party chart images are reproduced.
 
+**Reference sources**
+
+1. Computational Design Laboratory, Purdue University. *Aircraft Design* (AAE 451) Jupyter Book, "V-n Diagram": <https://computationaldesignlab.github.io/aircraft-design/trade_study/vn_diagram.html> ([source repository](https://github.com/computationaldesignlab/aircraft-design), commit `c405a64`).
+2. Cessna / Textron Aviation, *Pilot's Operating Handbook*, Models 172R (2450 lb) and 172S (2550 lb), Sec. 2 Limitations and Sec. 5 Performance. There is no official public link; the values were taken from search extracts of flight-school copies, which are listed in [`validation/reference_data.yaml`](validation/reference_data.yaml).
+3. 14 CFR 23.1505, Airspeed limitations: <https://www.law.cornell.edu/cfr/text/14/23.1505>
+4. 14 CFR 23.337, Limit maneuvering load factors: <https://www.govinfo.gov/content/pkg/CFR-2016-title14-vol1/pdf/CFR-2016-title14-vol1-sec23-337.pdf>
+5. FAA, *Pilot's Handbook of Aeronautical Knowledge*, AC 61-23 (1980): <https://rosap.ntl.bts.gov/view/dot/71502>
+6. FAA, *Instrument Flying Handbook*, FAA-H-8083-15B: <https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/instrument_flying_handbook>
+
+Conditions, confidence levels and tolerances for each value are in [`validation/reference_data.yaml`](validation/reference_data.yaml).
+
 | | |
 |---|---|
 | ![Validation: Purdue V-n worked example](docs/images/validation_vn_purdue_example.png) | ![Validation: Cessna 172R doghouse vs POH](docs/images/validation_turn_c172r.png) |
