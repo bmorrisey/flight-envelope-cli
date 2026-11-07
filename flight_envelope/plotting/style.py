@@ -148,6 +148,7 @@ def declutter(fig: Figure, annotations: list, pad_px: float = 3.0, max_iter: int
     canvas.draw()
     renderer = canvas.get_renderer()
     pts_per_px = 72.0 / fig.dpi
+    axes_box = annotations[0].axes.get_window_extent(renderer) if annotations else None
     for _ in range(max_iter):
         moved = False
         boxes = [a.get_window_extent(renderer) for a in annotations]
@@ -157,10 +158,16 @@ def declutter(fig: Figure, annotations: list, pad_px: float = 3.0, max_iter: int
                 if bi.x1 < bj.x0 or bj.x1 < bi.x0 or bi.y1 < bj.y0 or bj.y1 < bi.y0:
                     continue
                 a = annotations[i]
-                up = a.get_va() == "bottom"
-                shift = ((bj.y1 - bi.y0) if up else (bi.y1 - bj.y0)) + pad_px
                 dx, dy = a.xyann
-                a.xyann = (dx, dy + (shift if up else -shift) * pts_per_px)
+                # preferred direction: away from the anchor; fall back to the other side
+                # of the obstacle if that would push the box outside the axes
+                up_first = a.get_va() == "bottom"
+                for up in (up_first, not up_first):
+                    shift = ((bj.y1 - bi.y0) if up else (bi.y1 - bj.y0)) + pad_px
+                    a.xyann = (dx, dy + (shift if up else -shift) * pts_per_px)
+                    nb = a.get_window_extent(renderer)
+                    if axes_box is None or (nb.y0 >= axes_box.y0 and nb.y1 <= axes_box.y1):
+                        break
                 boxes[i] = a.get_window_extent(renderer)
                 moved = True
         if not moved:
