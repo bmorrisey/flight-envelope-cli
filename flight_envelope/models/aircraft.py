@@ -81,7 +81,9 @@ class Aircraft(BaseModel):
     # Mass & geometry
     mass: Mass
     wing_area: Area
-    wing_chord: Length = Field(description="Mean aerodynamic chord [m]")
+    wing_chord: Length = Field(
+        description="Mean geometric chord S/b [m], used in the gust mass ratio (14 CFR 23.341); "
+                    "the MAC is a close substitute for moderately tapered wings")
     aspect_ratio: float = Field(gt=0)
     oswald_efficiency: float = Field(gt=0, le=1.2)
 

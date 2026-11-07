@@ -6,7 +6,7 @@ aircraft:
   category: normal
   mass: 1111.0            # kg (MTOW, 2450 lb)
   wing_area: 16.2         # m^2
-  wing_chord: 1.49        # m (MAC)
+  wing_chord: 1.49        # m, mean geometric chord S/b (used in gust mass ratio)
   aspect_ratio: 7.32
   oswald_efficiency: 0.80
   cd0: 0.027
@@ -17,6 +17,6 @@ aircraft:
   prop_efficiency: 0.78
   max_thrust_sl: 2100.0   # N, static thrust cap
   v_c: 65.0               # m/s EAS (~126 KEAS)
-  v_d: 82.0               # m/s EAS (~159 KEAS)
+  v_d: "178 kt"           # EAS; 14 CFR 23.1505(a): V_NE (160 KCAS) <= 0.9 V_D
   n_pos_limit: 3.8
   n_neg_limit: -1.52

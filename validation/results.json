@@ -1,0 +1,509 @@
+{
+  "generator": "validation/run_validation.py",
+  "package_version": "0.1.0",
+  "summary": {
+    "pass": 27,
+    "fail": 1
+  },
+  "sources": {
+    "purdue_aae451": {
+      "citation": "Computational Design (CODE) Laboratory, Purdue University (L. Leifsson et al.), \"Aircraft Design\" Jupyter Book for AAE 451, section \"V-n Diagram\" (book/trade_study/vn_diagram.ipynb), printed cell outputs and final figure.",
+      "url": "https://computationaldesignlab.github.io/aircraft-design/trade_study/vn_diagram.html",
+      "repository": "https://github.com/computationaldesignlab/aircraft-design",
+      "revision": "c405a64140a390e76b908923915ca7041e6cea24 (2025-11-26)",
+      "license": "GPL-3.0 (values cited, no content copied)",
+      "access": "git clone of the public repository; notebook outputs read directly."
+    },
+    "cessna_172r_poh": {
+      "citation": "Cessna Aircraft Co., Pilot's Operating Handbook and FAA Approved Airplane Flight Manual, Model 172R (Skyhawk), Section 2 Limitations (airspeed limitations, flight load factors) and Section 5 Performance (stall speeds), 2450 lb maximum weight.",
+      "url": "https://wayman.edu/files/172R-POH.pdf (one of several flight-school copies)",
+      "access": "Values from search-engine extracts of the copies at wayman.edu, befa.org and the studentpilot.com summary. The PDF itself was not fetched (host blocked)."
+    },
+    "cessna_172s_poh": {
+      "citation": "Cessna Aircraft Co., Pilot's Operating Handbook, Model 172S (Skyhawk SP / NAV III), Section 2 Limitations and Section 5 Performance, 2550 lb maximum weight.",
+      "url": "https://wayman.edu/files/C172S-G1000-POH.pdf (one of several flight-school copies)",
+      "access": "Search-engine extracts of POH copies at wayman.edu, befa.org and greatbasinaviation.com. The PDF itself was not fetched (host blocked)."
+    },
+    "cessna_172_load_factors": {
+      "citation": "Cessna 172 POH / AFM supplements, Section 2 \"Flight Load Factors\": normal category, flaps up +3.8 g / -1.52 g, flaps down +3.0 g.",
+      "url": "https://www.se.edu/aviation/wp-content/uploads/sites/4/2023/11/180hp-STC-POH-Supplement.pdf",
+      "access": "Search-engine extracts of several AFM supplements and POHs; not fetched."
+    },
+    "cfr_23_1505": {
+      "citation": "14 CFR 23.1505 (pre-Amendment 23-64), Airspeed limitations: (a) V_NE not more than 0.9 V_D; (b) V_NO not more than V_C (and not more than 0.89 V_NE).",
+      "url": "https://www.law.cornell.edu/cfr/text/14/23.1505",
+      "access": "CFR text quoted via reprints (pilotfriend.com, risingup.com); eCFR blocked."
+    },
+    "cfr_23_337": {
+      "citation": "14 CFR 23.337 (pre-Amendment 23-64), Limit maneuvering load factors: n >= 2.1 + 24000/(W + 10000), need not exceed 3.8 (normal); n_neg >= 0.4 n (normal).",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2016-title14-vol1/pdf/CFR-2016-title14-vol1-sec23-337.pdf",
+      "access": "Formula cross-checked against the Purdue notebook, which quotes it."
+    },
+    "faa_phak_1980": {
+      "citation": "FAA, Pilot's Handbook of Aeronautical Knowledge, AC 61-23 (revised 1980), \"Load factors in steep turns\": a 60 degree bank gives a load factor of 2.",
+      "url": "https://rosap.ntl.bts.gov/view/dot/71502/dot_71502_DS1.pdf",
+      "access": "Search-engine extract; the same statement is in FAA-H-8083-25C ch. 5 (not fetched, faa.gov blocked)."
+    },
+    "faa_ifh": {
+      "citation": "FAA, Instrument Flying Handbook (FAA-H-8083-15B), \"Standard rate turns\": standard rate = 3 deg/s; approximate bank angle = 15 % of TAS (divide by 10, add half the result), e.g. 15 deg at 100 KTAS, 18 deg at 120 KTAS.",
+      "url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/instrument_flying_handbook",
+      "access": "Search-engine extract quoting the handbook text (luizmonteiro.com); faa.gov blocked."
+    }
+  },
+  "cases": [
+    {
+      "id": "purdue_vn",
+      "title": "Textbook worked example: Purdue AAE 451 V-n diagram (FAR 23, sea level, MTOW, clean)",
+      "aircraft": "validation/aircraft/purdue_aae451_example.yaml",
+      "altitude_ft": 0,
+      "strength": "Strongest test. All inputs come from the same source, the outputs are printed numbers, and the source uses an independent implementation (imperial units, 498 constant).",
+      "comparisons": [
+        {
+          "quantity": "n+ (23.337)",
+          "reference": 3.58,
+          "ours": 3.5768,
+          "unit": "g",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Load factor\", output \"Positive load factor: 3.58\"",
+          "error_pct": -0.089,
+          "error_abs": -0.0032,
+          "pass": true,
+          "tolerance": "±0.005 g"
+        },
+        {
+          "quantity": "n- (23.337)",
+          "reference": -1.43,
+          "ours": -1.43072,
+          "unit": "g",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Load factor\", output \"Negative load factor: -1.43\"",
+          "error_pct": -0.05,
+          "error_abs": -0.00072,
+          "pass": true,
+          "tolerance": "±0.005 g"
+        },
+        {
+          "quantity": "V_S+ (1 g stall)",
+          "reference": 94,
+          "ours": 94.44744,
+          "unit": "KEAS",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Speeds\", output \"Positive stall speed: 94 kts\"",
+          "error_pct": 0.476,
+          "error_abs": 0.44744,
+          "pass": true,
+          "tolerance": "±0.5 KEAS"
+        },
+        {
+          "quantity": "V_S- (-1 g stall)",
+          "reference": 110,
+          "ours": 110.2908,
+          "unit": "KEAS",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Speeds\", output \"Negative stall speed: 110 kts\"",
+          "error_pct": 0.264,
+          "error_abs": 0.2908,
+          "pass": true,
+          "tolerance": "±0.5 KEAS"
+        },
+        {
+          "quantity": "V_A (positive corner)",
+          "reference": 179,
+          "ours": 178.62295,
+          "unit": "KEAS",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Speeds\", output \"Corner speed (positive): 179 kts\"",
+          "error_pct": -0.211,
+          "error_abs": -0.37705,
+          "pass": true,
+          "tolerance": "±0.5 KEAS"
+        },
+        {
+          "quantity": "V_G (negative corner)",
+          "reference": 132,
+          "ours": 131.92179,
+          "unit": "KEAS",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "cell \"Speeds\", output \"Corner speed (negative): 132 kts\"",
+          "error_pct": -0.059,
+          "error_abs": -0.07821,
+          "pass": true,
+          "tolerance": "±0.5 KEAS"
+        },
+        {
+          "quantity": "n gust +50 ft/s at V_C",
+          "reference": 2.62,
+          "ours": 2.61435,
+          "unit": "g",
+          "confidence": "chart_read",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "final figure, right end of the \"+/-50 ft/s gust line\" at V_C = 177 KEAS",
+          "error_pct": -0.216,
+          "error_abs": -0.00565,
+          "pass": true,
+          "tolerance": "±0.05 g"
+        },
+        {
+          "quantity": "n gust -50 ft/s at V_C",
+          "reference": -0.62,
+          "ours": -0.61435,
+          "unit": "g",
+          "confidence": "chart_read",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "final figure, lower 50 ft/s gust line at V_C",
+          "error_pct": 0.911,
+          "error_abs": 0.00565,
+          "pass": true,
+          "tolerance": "±0.05 g"
+        },
+        {
+          "quantity": "n gust +25 ft/s at V_D",
+          "reference": 2.09,
+          "ours": 2.09448,
+          "unit": "g",
+          "confidence": "chart_read",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "final figure, right end of the \"+/-25 ft/s gust line\" at V_D = 240 KEAS",
+          "error_pct": 0.214,
+          "error_abs": 0.00448,
+          "pass": true,
+          "tolerance": "±0.05 g"
+        },
+        {
+          "quantity": "n gust -25 ft/s at V_D (= design n_neg at V_D)",
+          "reference": -0.09,
+          "ours": -0.0945,
+          "unit": "g",
+          "confidence": "chart_read",
+          "check": "abs",
+          "source": "purdue_aae451",
+          "locator": "final figure, lower V_D corner; text: \"the -25 ft/s gust load factor at V_D exceeds the maneuver load factor\"",
+          "error_pct": -5.0,
+          "error_abs": -0.0045,
+          "pass": true,
+          "tolerance": "±0.05 g"
+        },
+        {
+          "quantity": "positive gust governs? (source: no)",
+          "reference": false,
+          "ours": false,
+          "unit": "bool",
+          "confidence": "printed",
+          "check": "equal",
+          "source": "purdue_aae451",
+          "locator": "closing text: \"the gust load factors at other V_C and V_D points are within the maneuver envelope\"",
+          "error_pct": null,
+          "pass": true
+        },
+        {
+          "quantity": "V_A > V_C? (source: yes)",
+          "reference": true,
+          "ours": true,
+          "unit": "bool",
+          "confidence": "printed",
+          "check": "equal",
+          "source": "purdue_aae451",
+          "locator": "text after \"Speeds\": \"the design cruise speed is less than corner speed (positive)\"",
+          "error_pct": null,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "c172_example_vs_172r",
+      "title": "examples/cessna172.yaml (generic, 2450 lb) vs Cessna 172R POH at 2450 lb",
+      "aircraft": "examples/cessna172.yaml",
+      "altitude_ft": 0,
+      "strength": "Weak, indicative only. The example is a generic 172-like configuration (assumed C_L,max, polar and design speeds), not Cessna data, so this tests the inputs as much as the code.",
+      "comparisons": [
+        {
+          "quantity": "V_S1 (flaps up, power off)",
+          "reference": 51,
+          "ours": 52.59236,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172r_poh",
+          "locator": "Sec. 5 Stall Speeds, flaps up, power off, 2450 lb, 0 deg bank",
+          "error_pct": 3.122,
+          "error_abs": 1.59236,
+          "pass": true,
+          "tolerance": "±5 %"
+        },
+        {
+          "quantity": "V_A at 2450 lb",
+          "reference": 97,
+          "ours": 102.52139,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172r_poh",
+          "locator": "Sec. 2 Airspeed Limitations, maneuvering speed 2450 lb: 97 KCAS / 99 KIAS",
+          "error_pct": 5.692,
+          "error_abs": 5.52139,
+          "pass": false,
+          "tolerance": "±5 %"
+        },
+        {
+          "quantity": "n+ flaps up",
+          "reference": 3.8,
+          "ours": 3.8,
+          "unit": "g",
+          "confidence": "poh_snippet",
+          "check": "abs",
+          "source": "cessna_172_load_factors",
+          "locator": "Sec. 2 Flight Load Factors (normal category, flaps up)",
+          "error_pct": 0.0,
+          "error_abs": 0.0,
+          "pass": true,
+          "tolerance": "±0.001 g"
+        },
+        {
+          "quantity": "n- flaps up",
+          "reference": -1.52,
+          "ours": -1.52,
+          "unit": "g",
+          "confidence": "poh_snippet",
+          "check": "abs",
+          "source": "cessna_172_load_factors",
+          "locator": "Sec. 2 Flight Load Factors (normal category, flaps up)",
+          "error_pct": 0.0,
+          "error_abs": 0.0,
+          "pass": true,
+          "tolerance": "±0.001 g"
+        },
+        {
+          "quantity": "V_C >= V_NO (126 KCAS)",
+          "reference": 126,
+          "ours": 126.34989,
+          "unit": "KCAS",
+          "confidence": "regulation",
+          "check": "ge",
+          "source": "cfr_23_1505",
+          "locator": "23.1505(b) with POH V_NO = 126 KCAS / 129 KIAS",
+          "error_pct": 0.278,
+          "error_abs": 0.34989,
+          "pass": true,
+          "tolerance": "ours ≥ ref"
+        },
+        {
+          "quantity": "V_D >= V_NE / 0.9 (160/0.9 KCAS)",
+          "reference": 177.8,
+          "ours": 178.0,
+          "unit": "KCAS",
+          "confidence": "regulation",
+          "check": "ge",
+          "source": "cfr_23_1505",
+          "locator": "23.1505(a)(2)(i) with POH V_NE = 160 KCAS / 163 KIAS",
+          "error_pct": 0.112,
+          "error_abs": 0.2,
+          "pass": true,
+          "tolerance": "ours ≥ ref"
+        }
+      ]
+    },
+    {
+      "id": "c172r_calibrated",
+      "title": "validation/aircraft/cessna172r_poh_calibrated.yaml vs Cessna 172R POH at 2450 lb",
+      "aircraft": "validation/aircraft/cessna172r_poh_calibrated.yaml",
+      "altitude_ft": 0,
+      "strength": "V_S1, V_C and V_D were set from the POH (circular, so not scored). V_A is independent: the package derives it from V_S1 and n = 3.8 (V_A = V_S1 sqrt(n)), and Cessna published it.",
+      "comparisons": [
+        {
+          "quantity": "V_S1 (calibration input)",
+          "reference": 51,
+          "ours": 51.00901,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "info",
+          "source": "cessna_172r_poh",
+          "locator": "Sec. 5 Stall Speeds, flaps up, 2450 lb (used to set C_L,max = 1.595)",
+          "error_pct": 0.018,
+          "error_abs": 0.00901,
+          "pass": null,
+          "tolerance": "info"
+        },
+        {
+          "quantity": "V_A at 2450 lb",
+          "reference": 97,
+          "ours": 99.43486,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172r_poh",
+          "locator": "Sec. 2 Airspeed Limitations, maneuvering speed 2450 lb",
+          "error_pct": 2.51,
+          "error_abs": 2.43486,
+          "pass": true,
+          "tolerance": "±5 %"
+        },
+        {
+          "quantity": "V_C >= V_NO (126 KCAS)",
+          "reference": 126,
+          "ours": 126.0,
+          "unit": "KCAS",
+          "confidence": "regulation",
+          "check": "ge",
+          "source": "cfr_23_1505",
+          "locator": "23.1505(b)",
+          "error_pct": 0.0,
+          "error_abs": 0.0,
+          "pass": true,
+          "tolerance": "ours ≥ ref"
+        },
+        {
+          "quantity": "V_D >= V_NE / 0.9",
+          "reference": 177.8,
+          "ours": 178.0,
+          "unit": "KCAS",
+          "confidence": "regulation",
+          "check": "ge",
+          "source": "cfr_23_1505",
+          "locator": "23.1505(a)",
+          "error_pct": 0.112,
+          "error_abs": 0.2,
+          "pass": true,
+          "tolerance": "ours ≥ ref"
+        },
+        {
+          "quantity": "Doghouse corner speed (= V_A at SL)",
+          "reference": 97,
+          "ours": 99.43486,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172r_poh",
+          "locator": "Sec. 2 maneuvering speed; at sea level the corner (C_L,max meets n_limit) is V_A in TAS",
+          "error_pct": 2.51,
+          "error_abs": 2.43486,
+          "pass": true,
+          "tolerance": "±5 %"
+        }
+      ]
+    },
+    {
+      "id": "c172s_weight_scaling",
+      "title": "V_A and V_S1 weight scaling vs Cessna 172S POH (examples/cessna172.yaml re-weighted)",
+      "aircraft": "examples/cessna172.yaml",
+      "altitude_ft": 0,
+      "strength": "Tests the sqrt(W) dependence of V_A, independent of the absolute C_L,max. Ratios use the KIAS values the POH publishes. Instrument error makes the KIAS ratios differ slightly from the KCAS ratios.",
+      "comparisons": [
+        {
+          "quantity": "V_A(2200 lb) / V_A(2550 lb)",
+          "reference": 0.93333,
+          "ours": 0.92884,
+          "unit": "-",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172s_poh",
+          "locator": "Sec. 2 maneuvering speed: 105 KIAS @ 2550 lb, 98 KIAS @ 2200 lb (98/105)",
+          "error_pct": -0.481,
+          "error_abs": -0.00449,
+          "pass": true,
+          "tolerance": "±1.5 %"
+        },
+        {
+          "quantity": "V_A(1900 lb) / V_A(2550 lb)",
+          "reference": 0.85714,
+          "ours": 0.86319,
+          "unit": "-",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172s_poh",
+          "locator": "Sec. 2 maneuvering speed: 90 KIAS @ 1900 lb (90/105)",
+          "error_pct": 0.706,
+          "error_abs": 0.00605,
+          "pass": true,
+          "tolerance": "±1.5 %"
+        },
+        {
+          "quantity": "V_S1 at 2550 lb",
+          "reference": 53,
+          "ours": 53.66222,
+          "unit": "KCAS",
+          "confidence": "poh_snippet",
+          "check": "pct",
+          "source": "cessna_172s_poh",
+          "locator": "Sec. 5 Stall Speeds, flaps up, power off, 2550 lb: 53 KCAS",
+          "error_pct": 1.249,
+          "error_abs": 0.66222,
+          "pass": true,
+          "tolerance": "±5 %"
+        }
+      ]
+    },
+    {
+      "id": "turn_kinematics",
+      "title": "Coordinated level-turn kinematics vs FAA handbooks",
+      "aircraft": null,
+      "altitude_ft": null,
+      "strength": "Exact relations (60 deg -> 2 g) and FAA rules of thumb (standard-rate bank angle).",
+      "comparisons": [
+        {
+          "quantity": "n at 60 deg bank",
+          "reference": 2.0,
+          "ours": 2.0,
+          "unit": "g",
+          "confidence": "printed",
+          "check": "abs",
+          "source": "faa_phak_1980",
+          "locator": "Load factors in steep turns (60 deg bank -> 2 G)",
+          "error_pct": -0.0,
+          "error_abs": -0.0,
+          "pass": true,
+          "tolerance": "±0.005 g"
+        },
+        {
+          "quantity": "Standard-rate (3 deg/s) bank at 100 KTAS",
+          "reference": 15,
+          "ours": 15.35885,
+          "unit": "deg",
+          "confidence": "rule_of_thumb",
+          "check": "abs",
+          "source": "faa_ifh",
+          "locator": "Standard rate turn, 15 % of TAS rule, example 100 kt -> 15 deg",
+          "error_pct": 2.392,
+          "error_abs": 0.35885,
+          "pass": true,
+          "tolerance": "±1 deg"
+        },
+        {
+          "quantity": "Standard-rate (3 deg/s) bank at 120 KTAS",
+          "reference": 18,
+          "ours": 18.24263,
+          "unit": "deg",
+          "confidence": "rule_of_thumb",
+          "check": "abs",
+          "source": "faa_ifh",
+          "locator": "Standard rate turn, 15 % of TAS rule, example 120 kt -> 18 deg",
+          "error_pct": 1.348,
+          "error_abs": 0.24263,
+          "pass": true,
+          "tolerance": "±1 deg"
+        }
+      ]
+    }
+  ],
+  "figures": [
+    "docs/images/validation_vn_purdue_example.png",
+    "docs/images/validation_vn_c172_example.png",
+    "docs/images/validation_vn_c172r_calibrated.png",
+    "docs/images/validation_turn_c172r.png",
+    "docs/images/validation_kinematics.png"
+  ]
+}

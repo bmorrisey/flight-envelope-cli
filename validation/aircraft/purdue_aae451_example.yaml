@@ -1,0 +1,27 @@
+# Worked example: "V-n Diagram" section of the Purdue AAE 451 Aircraft Design Jupyter Book
+# (Computational Design Laboratory, L. Leifsson). Source notebook:
+#   https://github.com/computationaldesignlab/aircraft-design  book/trade_study/vn_diagram.ipynb
+#   commit c405a64140a390e76b908923915ca7041e6cea24 (2025-11-26)
+# Every V-n input below comes from that notebook. Fields the V-n engine does not read
+# (polar, power) are placeholders so that the Aircraft model validates; see notes.
+aircraft:
+  name: "Purdue AAE 451 example airplane (worked example)"
+  category: normal               # FAR 23; notebook uses n+ = 2.1 + 24000/(W+10000), n- = -0.4 n+
+  # W/S = 45.3 lb/ft^2 (code cell) and S = 138 ft^2 (parameter table) -> W = 6251.4 lb.
+  # The notebook does not print MTOW; this W reproduces its printed n+ = 3.58.
+  # Note: the notebook's markdown table says W/S = 42.8, but the code (and so every
+  # printed number) uses 45.3. We follow the code.
+  mass: "6251.4 lb"
+  wing_area: "138 ft^2"
+  wing_chord: "3.92 ft"          # mean GEOMETRIC chord used in mu_g (the MAC 4.16 ft is not used there)
+  lift_curve_slope: 5.1          # 1/rad (notebook gust cell)
+  cl_max_clean: 1.5
+  cl_min_clean: -1.1
+  v_c: "177 kt"                  # printed "Design cruise speed: 177 kts" (EAS, rounded)
+  v_d: "240 kt"                  # notebook: VD = 240 KEAS
+  # ---- placeholders (not used by the V-n computation) ----
+  aspect_ratio: 9.0              # notebook A = 9
+  oswald_efficiency: 0.8         # placeholder
+  cd0: 0.025                     # placeholder
+  max_power_sl: "718 hp"         # W / (8.7 lb/hp) power loading from the notebook
+  prop_efficiency: 0.8           # placeholder

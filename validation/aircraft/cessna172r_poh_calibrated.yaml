@@ -1,0 +1,29 @@
+# Cessna 172R at 2450 lb, with the generic example (examples/cessna172.yaml) recalibrated so
+# that it does not contradict the published limits. Only three values differ from the example:
+#   cl_max_clean: chosen so V_S1 = 51 KCAS, the 172R POH flaps-up power-off stall speed at
+#                 2450 lb (CAS ~ EAS at sea level). 1.50 * (52.59 / 51)^2 = 1.595
+#   v_c:          126 kt, the POH V_NO (126 KCAS). 14 CFR 23.1505(b) requires V_NO <= V_C, so
+#                 this is the smallest V_C consistent with the POH.
+#   v_d:          178 kt. 14 CFR 23.1505(a) requires V_NE <= 0.9 V_D, so with V_NE = 160 KCAS,
+#                 V_D >= 177.8 KEAS. (The example's 82 m/s = 159 KEAS is below V_NE.)
+# Everything else (wing area 16.2 m^2 = 174 ft^2, polar, power) is the generic example's and
+# is NOT published Cessna data.
+aircraft:
+  name: "Cessna 172R (POH-calibrated V_S1, V_C, V_D)"
+  category: normal
+  mass: "2450 lb"
+  wing_area: 16.2
+  wing_chord: 1.49
+  aspect_ratio: 7.32
+  oswald_efficiency: 0.80
+  cd0: 0.027
+  cl_max_clean: 1.595
+  cl_min_clean: -1.00
+  lift_curve_slope: 4.8
+  max_power_sl: "180 hp"
+  prop_efficiency: 0.78
+  max_thrust_sl: 2100.0
+  v_c: "126 kt"
+  v_d: "178 kt"
+  n_pos_limit: 3.8
+  n_neg_limit: -1.52

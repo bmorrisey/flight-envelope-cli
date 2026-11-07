@@ -13,7 +13,7 @@ pip install -e ".[dev]"            # editable install with pytest + plotly
 pytest -q                          # full suite, ~4 s; must stay green
 pytest tests/test_vn.py -q         # one module
 python scripts/make_gallery.py     # regenerate docs/images/*.png (README gallery)
-python validation/run_validation.py  # published-data comparison → docs/images/validation_*.png
+python validation/run_validation.py  # published-data comparison → docs/images/validation_*.png, validation/results.json
 
 flightenv vn   -c examples/cessna172.yaml -o /tmp/vn.png -e /tmp/vn.json
 flightenv turn -c examples/f16.yaml -a 15000 -o /tmp/turn.png --theme dark

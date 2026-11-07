@@ -80,7 +80,7 @@ Example terminal output:
 │ V_S1    │ Stall speed (1 g)          │  52.6 │  52.6 │    27.1 │     97.4 │
 │ V_A     │ Maneuvering / corner speed │ 102.5 │ 102.5 │    52.7 │    189.9 │
 │ V_C     │ Design cruise speed        │ 126.3 │ 126.3 │    65.0 │    234.0 │
-│ V_D     │ Design dive speed          │ 159.4 │ 159.4 │    82.0 │    295.2 │
+│ V_D     │ Design dive speed          │ 178.0 │ 178.0 │    91.6 │    329.7 │
 └─────────┴────────────────────────────┴───────┴───────┴─────────┴──────────┘
 ╭─────────────────────────────── Warnings ───────────────────────────────╮
 │ • Gust loads govern: positive design load factor 3.85 g exceeds        │
@@ -118,7 +118,7 @@ aircraft:
   category: normal          # normal | utility | aerobatic | commuter | transport | military
   mass: "2450 lb"
   wing_area: 16.2           # m^2
-  wing_chord: 1.49          # m, mean aerodynamic chord
+  wing_chord: 1.49          # m, mean geometric chord (gust mass ratio)
   aspect_ratio: 7.32
   oswald_efficiency: 0.80
   cd0: 0.027
@@ -129,7 +129,7 @@ aircraft:
   prop_efficiency: 0.78
   max_thrust_sl: 2100.0     # N; with a propeller this is the static-thrust cap
   v_c: "126 kt"
-  v_d: "159 kt"
+  v_d: "178 kt"
   n_pos_limit: 3.8          # optional: defaults from 14 CFR 23.337 / 25.337
   n_neg_limit: -1.52
 ```
@@ -187,7 +187,7 @@ All curves, regions and key points are exported in one Pydantic model (`flighten
   "aircraft_name": "Cessna 172 Skyhawk (generic)",
   "flight_conditions": {"altitude_m": 0, "density_kg_m3": 1.225, "mass_kg": 1111, "regulation": "far23", ...},
   "units": {"speed": "KEAS", "load_factor": "g", "gust_velocity": "ft/s"},
-  "x_axis": {"label": "Airspeed [KEAS]", "unit": "KEAS", "min": 0, "max": 178.5},
+  "x_axis": {"label": "Airspeed [KEAS]", "unit": "KEAS", "min": 0, "max": 199.4},
   "y_axis": {"label": "Load factor n [g]", "unit": "g", "min": -3.5, "max": 6.5},
   "key_points": {"Va": {"x": 102.52, "y": 3.8, "label": "$V_A$", "description": "Design maneuvering (corner) speed"}},
   "summary":    {"va": {"value": 102.52, "unit": "KEAS", "label": "V_A", "description": "..."}},
@@ -248,7 +248,26 @@ All curves, regions and key points are exported in one Pydantic model (`flighten
 
 The test suite checks the engines against public references: US Standard Atmosphere 1976 tables, the 14 CFR 23.337 load-factor formula, the FAR 23 imperial gust formula (`Δn = K_g U_de V a / (498 W/S)`), and textbook level-turn kinematics. It also checks internal consistency: T = D along the sustained boundary, ω·R = V, and that the combined envelope contains the maneuver envelope.
 
-A comparison against published charts and handbook data is in **[docs/validation.md](docs/validation.md)**.
+We also compared the results against **published data** (`python validation/run_validation.py`): **27 of 28 checks pass**. Full method, citations and a discussion of each discrepancy are in **[docs/validation.md](docs/validation.md)**.
+
+| Check | Published | flightenv | Error |
+|---|---:|---:|---:|
+| Purdue AAE 451 V-n worked example: n₊ / n₋ | 3.58 / −1.43 | 3.577 / −1.431 | < 0.1 % |
+| ″ V_S / V_A / V_G | 94 / 179 / 132 kt | 94.5 / 178.6 / 131.9 kt | < 0.5 % |
+| ″ gust-line ends at V_C and V_D (read from the chart) | 2.62 / −0.62 / 2.09 / −0.09 g | 2.614 / −0.614 / 2.094 / −0.094 g | ≤ 0.006 g |
+| Cessna 172R POH, calibrated C_L,max: V_A at 2450 lb | 97 KCAS | 99.4 | +2.5 % |
+| Cessna 172S POH: V_A weight scaling 2200 / 1900 lb | 0.933 / 0.857 | 0.929 / 0.863 | < 0.8 % |
+| FAA IFH standard-rate bank at 100 / 120 KTAS (rule of thumb) | 15° / 18° | 15.4° / 18.2° | < 2.4 % |
+| Generic `examples/cessna172.yaml`: V_A | 97 KCAS | 102.5 | **+5.7 % (fail)**: assumed C_L,max, not a code error |
+
+Published values are drawn as magenta markers on our own charts. No third-party chart images are reproduced.
+
+| | |
+|---|---|
+| ![Validation: Purdue V-n worked example](docs/images/validation_vn_purdue_example.png) | ![Validation: Cessna 172R doghouse vs POH](docs/images/validation_turn_c172r.png) |
+| Textbook V-n worked example: published points (magenta) on our envelope. | Cessna 172R (POH-calibrated) doghouse with POH V_S1, V_A and V_NE and the FAA standard-rate turn. |
+
+Not yet validated: the sustained-turn (P_s = 0) boundary and the P_s contours, and fighter E-M data in general. We found no published F-16 E-M chart that states weight and drag index.
 
 ## Modelling notes and limitations
 

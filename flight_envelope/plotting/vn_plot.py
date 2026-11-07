@@ -81,8 +81,6 @@ def render_vn(env: EnvelopeData, theme: str = "light") -> Figure:
         xr = env.x_axis.max
         n_ult = env.summary["n_ult_pos"].value
         caption("structural_failure_pos", 0.62 * xr, (n_ult + env.y_axis.max) / 2, "STRUCTURAL FAILURE", p["crimson"])
-        n_lim = env.summary["n_design_pos"].value
-        caption("structural_damage_pos", 0.62 * xr, (n_lim + n_ult) / 2, "structural damage", p["amber"])
         caption("stall_pos", 0.07 * xr, 0.55 * env.y_axis.max, "STALL", p["slate"])
 
         style.legend_outside(ax)
