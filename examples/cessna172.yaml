@@ -1,0 +1,22 @@
+# Cessna 172-like four-seat trainer (FAR 23 normal category).
+# Plain numbers are SI; strings may carry units ("2450 lb", "126 kt", "180 hp").
+# Design speeds (v_c, v_d, v_b) are equivalent airspeeds.
+aircraft:
+  name: "Cessna 172 Skyhawk (generic)"
+  category: normal
+  mass: 1111.0            # kg (MTOW, 2450 lb)
+  wing_area: 16.2         # m^2
+  wing_chord: 1.49        # m (MAC)
+  aspect_ratio: 7.32
+  oswald_efficiency: 0.80
+  cd0: 0.027
+  cl_max_clean: 1.50
+  cl_min_clean: -1.00
+  lift_curve_slope: 4.8   # 1/rad
+  max_power_sl: "180 hp"  # Lycoming O-360 class
+  prop_efficiency: 0.78
+  max_thrust_sl: 2100.0   # N, static thrust cap
+  v_c: 65.0               # m/s EAS (~126 KEAS)
+  v_d: 82.0               # m/s EAS (~159 KEAS)
+  n_pos_limit: 3.8
+  n_neg_limit: -1.52

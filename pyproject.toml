@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flight-envelope"
+version = "0.1.0"
+description = "Aircraft V-n and turn-performance (doghouse / E-M) envelopes: compute, plot, export."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+    "matplotlib>=3.8",
+    "typer>=0.12",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+interactive = ["plotly>=5.18"]
+dev = ["pytest>=8", "plotly>=5.18"]
+
+[project.scripts]
+flightenv = "flight_envelope.cli.main:app"
+
+[tool.setuptools.packages.find]
+include = ["flight_envelope*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,21 @@
+# F-16-like lightweight fighter (illustrative public-domain values, clean, combat weight).
+# Incompressible parabolic polar: no transonic drag rise or Mach-dependent thrust.
+aircraft:
+  name: "F-16 class fighter (generic)"
+  category: military
+  mass: "26500 lb"         # combat weight
+  wing_area: "300 ft^2"
+  wing_chord: "11.32 ft"
+  aspect_ratio: 3.2
+  oswald_efficiency: 0.80
+  cd0: 0.0175
+  cl_max_clean: 1.60
+  cl_min_clean: -0.80
+  lift_curve_slope: 3.6    # 1/rad
+  max_thrust_sl: "29000 lbf"   # afterburner, F110-class
+  thrust_lapse_exponent: 0.8
+  v_c: "650 kt"
+  v_d: "800 kt"
+  n_pos_limit: 9.0
+  n_neg_limit: -3.0
+  n_neg_at_vd: -3.0

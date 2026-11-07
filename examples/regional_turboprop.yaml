@@ -1,0 +1,18 @@
+# 70-seat regional turboprop-like transport (FAR 25). Exercises the V_B / 66 ft/s gust line.
+aircraft:
+  name: "Regional turboprop (generic)"
+  category: transport
+  mass: 22800.0
+  wing_area: 61.0
+  wing_chord: 2.30
+  aspect_ratio: 12.0
+  oswald_efficiency: 0.82
+  cd0: 0.025
+  cl_max_clean: 1.70
+  cl_min_clean: -0.90
+  lift_curve_slope: 5.4
+  max_power_sl: "4950 shp"
+  prop_efficiency: 0.82
+  max_thrust_sl: "60 kN"
+  v_c: "250 kt"
+  v_d: "300 kt"
